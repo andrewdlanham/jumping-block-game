@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     // Initialize variables
     public float forwardForce = 250f;
     public float sidewaysForce = 100f;
-    public float jumpForce = 100f;
+    public float jumpForce = 1000f;
     public float fastFallForce = -500f;
     public Vector3 defaultRotation;
 
