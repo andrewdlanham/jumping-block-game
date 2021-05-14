@@ -3,23 +3,27 @@
 public class PlayerMovement : MonoBehaviour
 {
 
+    // PlayerMovement Script
+    public PlayerMovement movement;
+
     // Rigidbody componenet
     public Rigidbody rb;
 
     // Initialize variables
-    public float forwardForce = 250f;
-    public float sidewaysForce = 100f;
-    public float jumpForce = 1000f;
-    public float fastFallForce = -500f;
+    public float forwardForce;
+    public float sidewaysForce;
+    public float jumpForce;
+    public float fastFallForce;
     public Vector3 defaultRotation;
+    public bool canJump = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        /*
-        rb.useGravity = false;
-        rb.AddForce(0, 200, 500);
-        */
+        forwardForce = 2000f;
+        sidewaysForce = 100f;
+        jumpForce = 500f;
+        fastFallForce = -500f;
     }
 
     // Fixed update function for physics
@@ -40,7 +44,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKey("w"))
         {
-            rb.AddForce(0, jumpForce * Time.deltaTime, 0, ForceMode.VelocityChange);
+            if (canJump) {
+                rb.AddForce(0, jumpForce * Time.deltaTime, 0, ForceMode.VelocityChange);
+                canJump = false;
+                Debug.Log("Jumped");
+            }
+            
         }
 
         if (Input.GetKey("s"))
@@ -54,4 +63,20 @@ public class PlayerMovement : MonoBehaviour
             FindObjectOfType<GameManager>().EndGame();
         }
     }
+
+    void OnCollisionEnter (Collision collisionInfo)
+    {
+        if (collisionInfo.collider.tag == "Obstacle")
+        {
+            movement.enabled = false;
+            FindObjectOfType<GameManager>().EndGame();
+            
+        }
+
+        if (collisionInfo.collider.tag ==  "Ground")
+        {
+            canJump = true;
+        }
+    }
+
 }

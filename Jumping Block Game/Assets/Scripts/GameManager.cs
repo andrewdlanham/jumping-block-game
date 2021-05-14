@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 
+    public PlayerMovement movement;
+
     bool gameOver = false;
 
     public float restartDelay = 2f;
@@ -13,6 +15,7 @@ public class GameManager : MonoBehaviour
     public void CompleteLevel ()
     {
         completeLevelUI.SetActive(true);
+        movement.enabled = false;
     }
     
 
